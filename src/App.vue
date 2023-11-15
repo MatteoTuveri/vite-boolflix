@@ -75,7 +75,7 @@ export default {
         store.movieList = movies;
         const series = results[1].data.results;
         store.seriesList = series;
-        console.log(store.seriesList);
+        console.log(store.movieList);
       });
     }
   },
