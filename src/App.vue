@@ -12,9 +12,9 @@
             <span class="input-group-text border-0 bg-white" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"
                 style="color: #828487;"></i></span>
             <input type="text" class="form-control border-0" placeholder="Cerca un titolo" aria-label="Username"
-              v-model="this.store.params.query" aria-describedby="basic-addon1">
+              v-model="this.store.params.query" aria-describedby="basic-addon1" @keyup.enter="createLists">
             <span class="input-group-text border-0 bg-search text-white" id="basic-addon2"
-              @click="createLists">Cerca</span>
+             @click="createLists">Cerca</span>
           </div>
         </div>
         <div class="col-2 d-flex justify-content-center">
