@@ -1,7 +1,7 @@
 <template>
     <div class="card position-relative w-100 mb-4 overflow-hidden" style="width: 18rem;">
         <img :src="img" class="card-img-top" :alt="originalTitle">
-        <div class="card-body position-absolute description d-flex flex-column justify-content-end w-100 h-100">
+        <div class="card-body position-absolute description d-flex flex-column justify-content-end w-100 h-100" @click="infoCard()">
             <h2 class="card-title">{{ title }}</h2>
             <h5 class="card-title text-sub mb-0">ORIGINAL TITLE</h5>
             <span class="text-sub mb-4">{{ originalTitle }}</span>
@@ -15,10 +15,12 @@
 </template>
 
 <script>
+import { store } from '../data/store';
 export default {
     name: 'CardComp',
     data() {
         return {
+            store,
             n: 1
         }
     },
@@ -46,6 +48,10 @@ export default {
             else{
                 return language
             }
+        },
+        infoCard(){
+            console.log(store.infoCard)
+            this.$emit('infoCard')
         }
     },
     props: {

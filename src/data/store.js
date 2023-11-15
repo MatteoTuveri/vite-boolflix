@@ -13,5 +13,6 @@ export const store = reactive({
     imagesUrl:'https://image.tmdb.org/t/p/w500/',
     movieList: [],
     seriesList: [],
+    infoCard:false
 
 });

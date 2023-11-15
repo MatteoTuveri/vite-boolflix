@@ -7,4 +7,27 @@ $fa-font-path: '../webfonts';
 @import 'bootstrap/scss/bootstrap';
 @import 'flag-icons/css/flag-icons.min.css';
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: none;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 25px;
+    transition: 1s;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    transition: 1s;
+  }
+
 

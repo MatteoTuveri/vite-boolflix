@@ -30,13 +30,13 @@
         </div>
       </div>
     </header>
-    <main class="flex-grow-1 overflow-auto p-4">
+    <main class="flex-grow-1 overflow-auto p-4 position-relative">
       <h2 v-if="this.store.movieList.length !== 0" class="text-uppercase display-1 fw-bold text-white text-center mb-3">Movies</h2>
       <div class="row">
         <div v-for="(item, index) in this.store.movieList" class="col-2 d-flex justify-content-center">
           <CardComp :title="item.title" :original-title="item.original_title"
             :img="this.store.imagesUrl + item.poster_path" :language="item.original_language"
-            :grade="item.vote_average" />
+            :grade="item.vote_average"  @info-card="setInfoCard" />
         </div>
       </div>
       <h2 v-if="this.store.movieList.length !== 0" class="text-uppercase display-1 fw-bold text-white text-center mb-3">Series</h2>
@@ -44,8 +44,11 @@
         <div v-for="(item, index) in this.store.seriesList" class="col-2 d-flex justify-content-center">
           <CardComp :title="item.name" :original-title="item.original_name"
             :img="this.store.imagesUrl + item.poster_path" :language="item.original_language"
-            :grade="item.vote_average" />
+            :grade="item.vote_average"  @info-card="setInfoCard" />
         </div>
+      </div>
+      <div v-if="this.store.infoCard" class="info-card position-absolute">
+
       </div>
     </main>
   </div>
@@ -77,6 +80,9 @@ export default {
         store.seriesList = series;
         console.log(store.movieList);
       });
+    },
+    setInfoCard(){
+      store.infoCard = true
     }
   },
   components: { CardComp }
@@ -112,26 +118,14 @@ main {
 .bg-search:hover {
   cursor: pointer;
 }
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: none;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
+.info-card{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
   border-radius: 25px;
-  transition: 1s;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-  transition: 1s;
+  z-index: 1000;
+  width: 50vw;
+  height: 90vh;
 }
 </style>
