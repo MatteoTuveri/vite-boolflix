@@ -11,7 +11,7 @@
           <div class="input-group">
             <span class="input-group-text border-0 bg-white" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"
                 style="color: #828487;"></i></span>
-            <input type="text" class="form-control border-0" placeholder="Cerca un titolo" aria-label="Username"
+            <input type="text" class="form-control border-0 shadow-none" placeholder="Cerca un titolo" aria-label="Username"
               v-model="this.store.params.query" aria-describedby="basic-addon1" @keyup.enter="createLists">
             <span class="input-group-text border-0 bg-search text-white" id="basic-addon2"
               @click="createLists">Cerca</span>
@@ -30,19 +30,19 @@
         </div>
       </div>
     </header>
-    <main class="flex-grow-1 overflow-auto p-5">
-      <h2>Movies</h2>
+    <main class="flex-grow-1 overflow-auto p-4">
+      <h2 v-if="this.store.movieList.length !== 0" class="text-uppercase display-1 fw-bold text-white text-center mb-3">Movies</h2>
       <div class="row">
         <div v-for="(item, index) in this.store.movieList" class="col-2 d-flex justify-content-center">
-          <CardComp :title="item.title" :original-title="item.original_name"
+          <CardComp :title="item.title" :original-title="item.original_title"
             :img="this.store.imagesUrl + item.poster_path" :language="item.original_language"
             :grade="item.vote_average" />
         </div>
       </div>
-      <h2>Series</h2>
+      <h2 v-if="this.store.movieList.length !== 0" class="text-uppercase display-1 fw-bold text-white text-center mb-3">Series</h2>
       <div class="row">
         <div v-for="(item, index) in this.store.seriesList" class="col-2 d-flex justify-content-center">
-          <CardComp :title="item.name" :original-title="item.original_title"
+          <CardComp :title="item.name" :original-title="item.original_name"
             :img="this.store.imagesUrl + item.poster_path" :language="item.original_language"
             :grade="item.vote_average" />
         </div>
@@ -105,10 +105,33 @@ export default {
 }
 
 main {
-  background-color: #828487;
+  background: rgb(75,75,75);
+  background: linear-gradient(0deg, rgba(75,75,75,1) 0%, rgba(2,0,36,1) 78%);
 }
 
 .bg-search:hover {
   cursor: pointer;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 25px;
+  transition: 1s;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  transition: 1s;
 }
 </style>
