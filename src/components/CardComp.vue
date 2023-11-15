@@ -4,7 +4,7 @@
         <div class="card-body">
             <h2 class="card-title">{{ title }}</h2>
             <h5 class="card-title">Original Title:{{ originalTitle }}</h5>
-            <p class="card-text">Language:{{ language }}</p>
+            <p class="card-text">Language:<span :class="'fi fi-'+language"></span></p>
             <p class="card-text">Grade: {{ grade }}</p>
         </div>
     </div>

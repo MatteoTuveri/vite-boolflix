@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import MovieCardComp from './components/CardComp.vue';
+import CardComp from './components/CardComp.vue';
 import { store } from './data/store';
 import axios from 'axios';
 export default {
