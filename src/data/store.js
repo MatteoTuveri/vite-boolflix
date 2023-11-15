@@ -8,8 +8,9 @@ export const store = reactive({
     },
     params: {
         apiKey: 'ce9c620fce570ae78b7e22a8e754e124',
-        query: 'a'
+        query: ''
     },
+    imagesUrl:'https://image.tmdb.org/t/p/w500/',
     movieList: [],
     seriesList: [],
 

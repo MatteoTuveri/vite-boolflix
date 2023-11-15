@@ -12,8 +12,9 @@
             <span class="input-group-text border-0 bg-white" id="basic-addon1"><i class="fa-solid fa-magnifying-glass"
                 style="color: #828487;"></i></span>
             <input type="text" class="form-control border-0" placeholder="Cerca un titolo" aria-label="Username"
-              aria-describedby="basic-addon1">
-            <span class="input-group-text border-0 bg-search text-white" id="basic-addon2">Cerca</span>
+              v-model="this.store.params.query" aria-describedby="basic-addon1">
+            <span class="input-group-text border-0 bg-search text-white" id="basic-addon2"
+              @click="createLists">Cerca</span>
           </div>
         </div>
         <div class="col-2 d-flex justify-content-center">
@@ -29,39 +30,52 @@
         </div>
       </div>
     </header>
-    <main class="flex-grow-1 overflow-auto">
+    <main class="flex-grow-1 overflow-auto p-5">
+      <div class="row">
+          <div v-for="(item, index) in this.store.movieList" class="col-2 d-flex justify-content-center">
+            <MovieCardComp :title="item.title" :original-title="item.original_title"
+              :img="this.store.imagesUrl + item.poster_path" :language="item.original_language"
+              :grade="item.vote_average" />
+        </div>
 
+      </div>
+
+      <div>
+
+      </div>
     </main>
   </div>
 </template>
 
 <script>
+import MovieCardComp from './components/MovieCardComp.vue';
 import { store } from './data/store';
 import axios from 'axios';
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
-      store,
-    }
+      store
+    };
   },
   methods: {
     getMovies() {
-      return axios.get(store.apiUrl + store.endPoint.movies, { params: { api_key: store.params.apiKey, query: store.params.query } })
+      return axios.get(store.apiUrl + store.endPoint.movies, { params: { api_key: store.params.apiKey, query: store.params.query } });
     },
     getSeries() {
-      return axios.get(store.apiUrl + store.endPoint.series, { params: { api_key: store.params.apiKey, query: store.params.query } })
+      return axios.get(store.apiUrl + store.endPoint.series, { params: { api_key: store.params.apiKey, query: store.params.query } });
     },
+    createLists() {
+      Promise.all([this.getMovies(), this.getSeries()]).then((results) => {
+        const movies = results[0].data.results;
+        store.movieList = movies;
+        const series = results[1].data.results;
+        store.seriesList = series;
+        console.log(store.movieList);
+      });
+    }
   },
-  created() {
-    Promise.all([this.getMovies(),this.getSeries()]).then((results)=>{
-      const movies = results[0].data.results;
-      store.movieList = movies
-      const series = results[1].data.results;
-      store.seriesList = series
-      console.log(movies)
-    })
-  }
+  components: { MovieCardComp }
 }
 </script>
 
@@ -92,5 +106,4 @@ main {
 
 .bg-search:hover {
   cursor: pointer;
-}
-</style>
+}</style>
