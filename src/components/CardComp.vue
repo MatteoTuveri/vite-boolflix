@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name: 'MovieCardComp',
+    name: 'CardComp',
     data() {
         return {
 

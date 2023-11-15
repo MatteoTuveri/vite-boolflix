@@ -14,7 +14,7 @@
             <input type="text" class="form-control border-0" placeholder="Cerca un titolo" aria-label="Username"
               v-model="this.store.params.query" aria-describedby="basic-addon1" @keyup.enter="createLists">
             <span class="input-group-text border-0 bg-search text-white" id="basic-addon2"
-             @click="createLists">Cerca</span>
+              @click="createLists">Cerca</span>
           </div>
         </div>
         <div class="col-2 d-flex justify-content-center">
@@ -31,24 +31,28 @@
       </div>
     </header>
     <main class="flex-grow-1 overflow-auto p-5">
+      <h2>Movies</h2>
       <div class="row">
-          <div v-for="(item, index) in this.store.movieList" class="col-2 d-flex justify-content-center">
-            <MovieCardComp :title="item.title" :original-title="item.original_title"
-              :img="this.store.imagesUrl + item.poster_path" :language="item.original_language"
-              :grade="item.vote_average" />
+        <div v-for="(item, index) in this.store.movieList" class="col-2 d-flex justify-content-center">
+          <CardComp :title="item.title" :original-title="item.original_name"
+            :img="this.store.imagesUrl + item.poster_path" :language="item.original_language"
+            :grade="item.vote_average" />
         </div>
-
       </div>
-
-      <div>
-
+      <h2>Series</h2>
+      <div class="row">
+        <div v-for="(item, index) in this.store.seriesList" class="col-2 d-flex justify-content-center">
+          <CardComp :title="item.name" :original-title="item.original_title"
+            :img="this.store.imagesUrl + item.poster_path" :language="item.original_language"
+            :grade="item.vote_average" />
+        </div>
       </div>
     </main>
   </div>
 </template>
 
 <script>
-import MovieCardComp from './components/MovieCardComp.vue';
+import MovieCardComp from './components/CardComp.vue';
 import { store } from './data/store';
 import axios from 'axios';
 export default {
@@ -71,11 +75,11 @@ export default {
         store.movieList = movies;
         const series = results[1].data.results;
         store.seriesList = series;
-        console.log(store.movieList);
+        console.log(store.seriesList);
       });
     }
   },
-  components: { MovieCardComp }
+  components: { CardComp }
 }
 </script>
 
@@ -106,4 +110,5 @@ main {
 
 .bg-search:hover {
   cursor: pointer;
-}</style>
+}
+</style>
