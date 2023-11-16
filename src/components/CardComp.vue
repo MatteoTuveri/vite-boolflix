@@ -5,52 +5,27 @@
             @click="infoCard()">
             <h5 class="card-title">{{ title }}</h5>
             <span class="text-sub">{{ originalTitle }}</span>
-            <div class="my-1"><span :class="'fi fi-' + langSet(language)"></span></div>
-            <div class="d-flex">
-                <i v-for="n in gradeCalc(grade)" class="fa-solid fa-star"></i>
-                <i v-for="n in (5 - gradeCalc(grade))" class="fa-regular fa-star"></i>
-            </div>
+            <Lang class="my-1" :language="language"/>
+            <Rating :rate="gradeC" />
         </div>
     </div>
 </template>
 
 <script>
 import { store } from '../data/store';
+import Lang from './InfoCom.vue/Lang.vue';
+import Rating from './InfoCom.vue/Rating.vue';
 export default {
-    name: 'CardComp',
+    name: "CardComp",
     data() {
         return {
             store,
             n: 1
-        }
+        };
     },
     methods: {
-        gradeCalc(grade) {
-            let newGrade = (grade / 10) * 5;
-            return Math.ceil(newGrade)
-        },
-        langSet(language) {
-            if (language === 'en') {
-                return 'us'
-            }
-            else if (language === 'ja') {
-                return 'jp'
-            }
-            else if (language === 'ko') {
-                return 'kr'
-            }
-            else if (language === 'zh') {
-                return 'cn'
-            }
-            else if (language === 'hi') {
-                return 'in'
-            }
-            else {
-                return language
-            }
-        },
         infoCard() {
-            this.$emit('infoCard')
+            this.$emit("infoCard");
         }
     },
     props: {
@@ -60,6 +35,17 @@ export default {
         language: String,
         grade: Number,
     },
+    computed: {
+        gradeC() {
+            if (this.grade) {
+                return this.grade;
+            }
+            else {
+                return 0;
+            }
+        }
+    },
+    components: { Rating, Lang }
 }
 </script>
 

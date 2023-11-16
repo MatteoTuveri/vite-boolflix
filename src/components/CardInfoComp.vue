@@ -18,16 +18,13 @@
                     <div>
                         Ratings:
                     </div>
-                    <div class="d-flex mx-3">
-                        <i v-for="n in gradeCalc" class="fa-solid fa-star"></i>
-                        <i v-for="n in (5 - gradeCalc)" class="fa-regular fa-star"></i>
-                    </div>
+                    <Rating class="mx-3" :rate="grade"/>
                     <div>
                         {{store.activeItem.vote_count}}
                     </div>
                 </div>
                 <div class="d-flex align-items-center">
-                    <div>Language :</div><span class="mx-2" :class="'fi fi-' + langSet(store.activeItem.original_language)"></span>
+                    <div>Language :</div><Lang :language="store.activeItem.original_language"/>
                 </div>
             </div>
             <div class="close-button position-absolute d-flex justify-content-center align-items-center" @click="closeInfo">
@@ -39,65 +36,46 @@
 
 <script>
 import { store } from '../data/store';
+import Lang from './InfoCom.vue/Lang.vue';
+import Rating from './InfoCom.vue/Rating.vue';
 export default {
-    name: 'CardInfoComp',
+    name: "CardInfoComp",
     data() {
         return {
             store
-        }
+        };
     },
     props: {
         openClose: String
     },
     methods: {
         closeInfo() {
-            this.$emit('closeInfo')
+            this.$emit("closeInfo");
         },
-        langSet(language) {
-            if (language === 'en') {
-                return 'us'
-            }
-            else if (language === 'ja') {
-                return 'jp'
-            }
-            else if (language === 'ko') {
-                return 'kr'
-            }
-            else if (language === 'zh') {
-                return 'cn'
-            }
-            else if (language === 'hi') {
-                return 'in'
-            }
-            else {
-                return language
-            }
-        }
     },
     computed: {
         nameTitle() {
-            console.log(store.activeItem)
+            console.log(store.activeItem);
             if (store.activeItem.title) {
-                return store.activeItem.title
+                return store.activeItem.title;
             }
             else {
-                return store.activeItem.name
+                return store.activeItem.name;
             }
         },
         img() {
-            return `background-image :url(${this.store.imagesUrlXl + store.activeItem.poster_path});background-size:cover;background-position: center;`
+            return `background-image :url(${this.store.imagesUrlXl + store.activeItem.poster_path});background-size:cover;background-position: center;`;
         },
-        gradeCalc() {
+        grade() {
             if (store.activeItem.vote_average) {
-                let newGrade = (store.activeItem.vote_average / 10) * 5;
-                return Math.ceil(newGrade)
+                return store.activeItem.vote_average;
             }
             else {
-                return 0
+                return 0;
             }
         },
-        
-    }
+    },
+    components: { Rating, Lang }
 }
 </script>
 
