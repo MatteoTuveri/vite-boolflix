@@ -1,8 +1,38 @@
 <template>
-    <div class="w-100 h-100 d-flex justify-content-center align-items-center" :class="(openClose === 'open')?'info-bg-on':'info-bg-off'">
-        <div class="info-card" :class="openClose" @click="closeInfo">
-            
-
+    <div class="w-100 h-100 d-flex justify-content-center align-items-center"
+        :class="(openClose === 'open') ? 'info-bg-on' : 'info-bg-off'">
+        <div class="info-card overflow-hidden position-relative" :style="img" :class="openClose">
+            <div class=" info-section d-flex flex-column justify-content-end p-5 text-white ">
+                <h2 class="display-1 fw-bold mb-4">
+                    {{ nameTitle }}
+                </h2>
+                <div>
+                    <h5>
+                        Overview:
+                    </h5>
+                    <p>
+                        {{ store.activeItem.overview }}
+                    </p>
+                </div>
+                <div class="d-flex my-3 align-items-center">
+                    <div>
+                        Ratings:
+                    </div>
+                    <div class="d-flex mx-3">
+                        <i v-for="n in gradeCalc" class="fa-solid fa-star"></i>
+                        <i v-for="n in (5 - gradeCalc)" class="fa-regular fa-star"></i>
+                    </div>
+                    <div>
+                        {{store.activeItem.vote_count}}
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div>Language :</div><span class="mx-2" :class="'fi fi-' + langSet(store.activeItem.original_language)"></span>
+                </div>
+            </div>
+            <div class="close-button position-absolute d-flex justify-content-center align-items-center" @click="closeInfo">
+                <i class="fa-solid fa-xmark fa-2xl"></i>
+            </div>
         </div>
     </div>
 </template>
@@ -13,7 +43,7 @@ export default {
     name: 'CardInfoComp',
     data() {
         return {
-
+            store
         }
     },
     props: {
@@ -22,29 +52,100 @@ export default {
     methods: {
         closeInfo() {
             this.$emit('closeInfo')
+        },
+        langSet(language) {
+            if (language === 'en') {
+                return 'us'
+            }
+            else if (language === 'ja') {
+                return 'jp'
+            }
+            else if (language === 'ko') {
+                return 'kr'
+            }
+            else if (language === 'zh') {
+                return 'cn'
+            }
+            else if (language === 'hi') {
+                return 'in'
+            }
+            else {
+                return language
+            }
         }
     },
+    computed: {
+        nameTitle() {
+            console.log(store.activeItem)
+            if (store.activeItem.title) {
+                return store.activeItem.title
+            }
+            else {
+                return store.activeItem.name
+            }
+        },
+        img() {
+            return `background-image :url(${this.store.imagesUrlXl + store.activeItem.poster_path});background-size:cover;background-position: center;`
+        },
+        gradeCalc() {
+            if (store.activeItem.vote_average) {
+                let newGrade = (store.activeItem.vote_average / 10) * 5;
+                return Math.ceil(newGrade)
+            }
+            else {
+                return 0
+            }
+        },
+        
+    }
 }
 </script>
 
 <style lang="scss" scoped>
+.info-bg-on {
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
+}
 
-.info-bg-on{
-    background-color: rgba(0, 0, 0, 0.3);
-    transition: 1s;
-}
-.info-bg-off{
+.info-bg-off {
     background-color: rgba(0, 0, 0, 0);
-    transition: 1s;
+    transition: 0.5s;
 }
+
+.close-button{
+    top:20px;
+    right: 20px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid grey;
+    color: gray;
+    transition: 0.5s;
+}
+
+.close-button:hover{
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    transition: 0.5s;
+}
+
+.info-section {
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    background: rgb(0, 212, 255);
+    background: linear-gradient(180deg, rgba(0, 212, 255, 0) 40%, rgba(2, 0, 36, 0.7) 70%);
+}
+
 .close {
     transform: scale(0);
-    transition: 1s;
+    transition: 0.5s;
 }
 
 .open {
     transform: scale(1);
-    transition: 1s;
+    transition: 0.5s;
 }
 
 .info-card {

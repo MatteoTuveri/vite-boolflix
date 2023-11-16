@@ -35,18 +35,18 @@
       <h2 v-if="this.store.movieList.length !== 0" class="text-uppercase display-1 fw-bold text-white text-center mb-3">
         Movies</h2>
       <div class="row">
-        <div v-for="(item, index) in this.store.movieList" class="col-2 d-flex justify-content-center">
+        <div v-for="(item, index) in this.store.movieList" class="col-12 col-md-6 col-lg-4 col-xxl-2 px-4 d-flex justify-content-center">
           <CardComp :title="item.title" :original-title="item.original_title"
             :img="this.store.imagesUrl + item.poster_path" :language="item.original_language" :grade="item.vote_average"
-            @info-card="openInfoCard" />
+            @info-card="openInfoCard(item)" />
         </div>
       </div>
       <h2 v-if="this.store.movieList.length !== 0" class="text-uppercase display-1 fw-bold text-white text-center mb-3">
         Series</h2>
       <div class="row">
-        <div v-for="(item, index) in this.store.seriesList" class="col-2 d-flex justify-content-center">
+        <div v-for="(item, index) in this.store.seriesList" class="col-12 col-md-6 col-lg-4 col-xxl-2 px-4 d-flex justify-content-center">
           <CardComp :title="item.name" :original-title="item.original_name" :img="this.store.imagesUrl + item.poster_path"
-            :language="item.original_language" :grade="item.vote_average" @info-card="openInfoCard" />
+            :language="item.original_language" :grade="item.vote_average" @info-card="openInfoCard(item)" />
         </div>
       </div>
     </main>
@@ -83,21 +83,21 @@ export default {
         store.movieList = movies;
         const series = results[1].data.results;
         store.seriesList = series;
-        console.log(store.movieList);
       });
     },
-    openInfoCard() {
+    openInfoCard(item) {
+      store.activeItem = item;
       this.infoComand= 'close';
       store.infoCard = !store.infoCard
       setTimeout(() => {
         this.infoComand = 'open'
-      }, 500);
+      }, 100);
     },
     closeInfoCard(){
       this.infoComand= 'close';
       setTimeout(() => {
         store.infoCard = !store.infoCard
-      }, 1500);
+      }, 550);
     }
   },
   components: { CardComp, CardInfoComp },

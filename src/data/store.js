@@ -11,8 +11,10 @@ export const store = reactive({
         query: ''
     },
     imagesUrl:'https://image.tmdb.org/t/p/w500/',
+    imagesUrlXl:'https://image.tmdb.org/t/p/original/',
     movieList: [],
     seriesList: [],
-    infoCard:false
+    infoCard:false,
+    activeItem:[]
 
 });
