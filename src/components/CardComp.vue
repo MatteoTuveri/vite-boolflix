@@ -5,7 +5,7 @@
             @click="infoCard()">
             <h5 class="card-title">{{ title }}</h5>
             <span class="text-sub">{{ originalTitle }}</span>
-            <Lang class="my-1" :language="language"/>
+            <Lang class="mb-2" :language="language"/>
             <Rating :rate="gradeC" />
         </div>
     </div>
