@@ -14,23 +14,36 @@
                         {{ store.activeItem.overview }}
                     </p>
                 </div>
-                <div class="d-flex my-3 align-items-center">
+                <div class="d-flex">
+                    <div>
+                        Genre:
+                    </div>
+                    <div class="d-flex mx-1">
+                        <div v-for="item in getGenre(store.activeItem.genre_ids)">
+                            {{ item + ',' }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class=" my-3 d-flex align-items-center">
+                    <div>Language :</div>
+                    <Lang :language="store.activeItem.original_language" />
+                </div>
+                <div class="d-flex align-items-center">
                     <div>
                         Ratings:
                     </div>
-                    <Rating class="mx-3" :rate="grade"/>
+                    <Rating class="mx-3" :rate="grade" />
                     <div>
-                        {{store.activeItem.vote_count}}
+                        {{ store.activeItem.vote_count }}
                     </div>
-                </div>
-                <div class="d-flex align-items-center">
-                    <div>Language :</div><Lang :language="store.activeItem.original_language"/>
                 </div>
             </div>
             <div class="close-button position-absolute d-flex justify-content-center align-items-center" @click="closeInfo">
                 <i class="fa-solid fa-xmark fa-2xl"></i>
             </div>
         </div>
+        <VideoInfo :video-title="nameTitle" />
     </div>
 </template>
 
@@ -38,11 +51,13 @@
 import { store } from '../data/store';
 import Lang from './InfoCom.vue/Lang.vue';
 import Rating from './InfoCom.vue/Rating.vue';
+import VideoInfo from './InfoCom.vue/VideoInfo.vue';
 export default {
     name: "CardInfoComp",
     data() {
         return {
-            store
+            store,
+            cardTitle: ''
         };
     },
     props: {
@@ -51,17 +66,30 @@ export default {
     methods: {
         closeInfo() {
             this.$emit("closeInfo");
+            console.log(store.activeItem)
         },
+        getGenre(array) {
+            if (store.genresList.length !== 0 && store.activeItem.length !== 0) {
+                let genlist = [];
+                for (let i = 0; i < store.genresList.length; i++) {
+                    console.log(store.genresList[i].name)
+                    if (array.includes(store.genresList[i].id)) {
+                        genlist.push(store.genresList[i].name)
+                    }
+                }
+                return genlist
+            }
+        }
     },
     computed: {
         nameTitle() {
-            console.log(store.activeItem);
             if (store.activeItem.title) {
                 return store.activeItem.title;
             }
             else {
                 return store.activeItem.name;
             }
+
         },
         img() {
             return `background-image :url(${this.store.imagesUrlXl + store.activeItem.poster_path});background-size:cover;background-position: center;`;
@@ -74,8 +102,9 @@ export default {
                 return 0;
             }
         },
+
     },
-    components: { Rating, Lang }
+    components: { Rating, Lang, VideoInfo }
 }
 </script>
 
@@ -90,8 +119,8 @@ export default {
     transition: 0.5s;
 }
 
-.close-button{
-    top:20px;
+.close-button {
+    top: 20px;
     right: 20px;
     cursor: pointer;
     width: 40px;
@@ -102,7 +131,7 @@ export default {
     transition: 0.5s;
 }
 
-.close-button:hover{
+.close-button:hover {
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     transition: 0.5s;

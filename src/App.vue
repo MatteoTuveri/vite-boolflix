@@ -52,7 +52,7 @@
     </main>
     <div class="info-pg position-absolute"
       :class="(this.store.infoCard) ? 'd-flex' : 'd-none'">
-      <CardInfoComp @close-info="closeInfoCard" :open-close="infoComand" />
+      <CardInfoComp @close-info="closeInfoCard()" :open-close="infoComand" />
     </div>
   </div>
 </template>
@@ -67,10 +67,13 @@ export default {
   data() {
     return {
       store,
-      infoComand: ''
+      infoComand: 'close'
     };
   },
   methods: {
+    getMovieGenreList(){
+      return axios.get(store.apiUrl + store.endPoint.moviesForGenre, { params: { api_key: store.params.apiKey} });
+    },
     getMovies() {
       return axios.get(store.apiUrl + store.endPoint.movies, { params: { api_key: store.params.apiKey, query: store.params.query } });
     },
@@ -78,11 +81,13 @@ export default {
       return axios.get(store.apiUrl + store.endPoint.series, { params: { api_key: store.params.apiKey, query: store.params.query } });
     },
     createLists() {
-      Promise.all([this.getMovies(), this.getSeries()]).then((results) => {
+      Promise.all([this.getMovies(), this.getSeries(),this.getMovieGenreList()]).then((results) => {
         const movies = results[0].data.results;
         store.movieList = movies;
         const series = results[1].data.results;
         store.seriesList = series;
+        const genres = results[2].data.genres;
+        store.genresList = genres;
       });
     },
     openInfoCard(item) {
