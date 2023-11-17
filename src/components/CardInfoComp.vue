@@ -1,6 +1,6 @@
 <template>
     <div class="w-100 h-100 d-flex justify-content-center align-items-center" :class="(openClose === 'open') ? 'info-bg-on' : 'info-bg-off'">
-        <div class="info-card overflow-hidden position-relative d-flex flex-column" :style="img" :class="[openClose,(video)?'info-video':'info-card']">
+        <div class="info-card overflow-hidden position-relative d-flex flex-column" :style="(video)? 'bg-black' : img" :class="[openClose,(video)?'info-video':'info-card']">
             <div v-if="!video" class=" info-section d-flex flex-column justify-content-end p-5 text-white ">
                 <h2 class="display-1 fw-bold mb-4">
                     {{ nameTitle }}
@@ -228,7 +228,7 @@ export default {
 .info-video{
     width:1920px;
     height:1080px;
-    transition: 1s;
+    transition: 0.3s;
 }
 
 .btn-pers{

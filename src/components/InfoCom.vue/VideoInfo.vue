@@ -6,6 +6,7 @@
                 <i class="fa-solid fa-angle-left"></i>
             </div>
         </div>
+        <div class="banner position-absolute w-100"></div>
     </div>
 </template>
 
@@ -52,10 +53,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.player {
-    background-color: black;
-}
-
 .video-size {
     z-index: 100;
     width: 1920px;
@@ -67,9 +64,15 @@ export default {
     left: 0px;
     padding-top: 20px;
     padding-left: 20px;
+    height: 60px;
     z-index: 100;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 84%, rgba(2, 0, 36, 0) 100%);
+    background: black; 
+}
+
+.banner{
+    bottom: 0px;
+    background-color: black;
+    height: 60px;
 }
 
 .btn-pers {
@@ -83,24 +86,5 @@ export default {
 
 .btn-pers:hover {
     background-color: white;
-}
-
-.play {
-    bottom: 0px;
-    border: 1px solid black;
-
-    i {
-        z-index: 1000;
-        font-size: 4em;
-        color: rgba(255, 255, 255, 0.5);
-        transition: 1s;
-    }
-
-    i:hover {
-        font-size: 4.5em;
-        color: white;
-        transition: 1s;
-    }
-
 }
 </style>
