@@ -14,7 +14,7 @@
                         {{ store.activeItem.overview }}
                     </p>
                 </div>
-                <div class="d-flex">
+                <!--                 <div class="d-flex">
                     <div>
                         Genre:
                     </div>
@@ -24,7 +24,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
                 <div class=" my-3 d-flex align-items-center">
                     <div>Language :</div>
                     <Lang :language="store.activeItem.original_language" />
@@ -38,6 +38,14 @@
                         {{ store.activeItem.vote_count }}
                     </div>
                 </div>
+                <div>
+                    <div>
+
+                    </div>
+                    <div v-for="(item, index) in this.cast">
+                        {{ item.name }}
+                    </div>
+                </div>
             </div>
             <div class="close-button position-absolute d-flex justify-content-center align-items-center" @click="closeInfo">
                 <i class="fa-solid fa-xmark fa-2xl"></i>
@@ -48,6 +56,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { store } from '../data/store';
 import Lang from './InfoCom.vue/Lang.vue';
 import Rating from './InfoCom.vue/Rating.vue';
@@ -57,7 +66,8 @@ export default {
     data() {
         return {
             store,
-            cardTitle: ''
+            cardTitle: '',
+            cast:[]
         };
     },
     props: {
@@ -68,25 +78,35 @@ export default {
             this.$emit("closeInfo");
             console.log(store.activeItem)
         },
-        getGenre(array) {
-            if (store.genresList.length !== 0 && store.activeItem.length !== 0) {
-                let genlist = [];
-                for (let i = 0; i < store.genresList.length; i++) {
-                    console.log(store.genresList[i].name)
-                    if (array.includes(store.genresList[i].id)) {
-                        genlist.push(store.genresList[i].name)
+        /*         getGenre(array) {
+                    if (store.genresList.length !== 0 && store.activeItem.length !== 0) {
+                        let genlist = [];
+                        for (let i = 0; i < store.genresList.length; i++) {
+                            if (array.includes(store.genresList[i].id)){
+                                genlist.push(store.genresList[i].name)
+                            };
+                        }
+                        return genlist
                     }
-                }
-                return genlist
-            }
-        }
+                }, */
+
     },
     computed: {
         nameTitle() {
+            //movies
             if (store.activeItem.title) {
+                console.log('film')
+                axios.get(store.apiUrl + store.endPoint.movieCast.folder + store.activeItem.id + store.endPoint.movieCast.endPoint, { params: { api_key: store.params.apiKey }}).then((res)=>{
+                    this.cast = res.data.cast
+                })
                 return store.activeItem.title;
             }
+            //tv
             else {
+                console.log('serie')
+                axios.get(store.apiUrl + store.endPoint.tvCast.folder + store.activeItem.id + store.endPoint.tvCast.endPoint, { params: { api_key: store.params.apiKey }}).then((res)=>{
+                    this.cast = res.data.cast
+                })
                 return store.activeItem.name;
             }
 

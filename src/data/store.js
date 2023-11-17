@@ -5,7 +5,15 @@ export const store = reactive({
     endPoint: {
         movies: 'search/movie',
         series: 'search/tv',
-        moviesForGenre:'genre/movie/list'
+        moviesForGenre:'genre/movie/list',
+        movieCast:{
+            folder:'movie/',
+            endPoint:'/credits'
+        },
+        tvCast:{
+            folder:'tv/',
+            endPoint:'/credits'
+        }
     },
     params: {
         apiKey: 'ce9c620fce570ae78b7e22a8e754e124',
