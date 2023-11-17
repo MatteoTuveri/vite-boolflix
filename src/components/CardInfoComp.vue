@@ -19,8 +19,9 @@
                         Genre:
                     </div>
                     <div class="d-flex mx-1">
-                        <div v-for="item in getGenre(store.activeItem.genre_ids)">
-                            {{ item + ',' }}
+                        <div v-for="(item, index) in getGenre(store.activeItem.genre_ids)">
+                            {{ item }} <span class="me-2"
+                                v-if="index < getGenre(store.activeItem.genre_ids).length - 1">,</span>
                         </div>
                     </div>
 
@@ -38,6 +39,14 @@
                         {{ store.activeItem.vote_count }}
                     </div>
                 </div>
+                <div>
+                    <div>
+                        Cast:
+                    </div>
+                    <div v-for="(item, index) in this.cast">
+                        {{ item.name }}
+                    </div>
+                </div>
             </div>
             <div class="close-button position-absolute d-flex justify-content-center align-items-center" @click="closeInfo">
                 <i class="fa-solid fa-xmark fa-2xl"></i>
@@ -48,6 +57,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { store } from '../data/store';
 import Lang from './InfoCom.vue/Lang.vue';
 import Rating from './InfoCom.vue/Rating.vue';
@@ -57,7 +67,9 @@ export default {
     data() {
         return {
             store,
-            cardTitle: ''
+            cardTitle: '',
+            cast: [],
+            n: 1
         };
     },
     props: {
@@ -72,22 +84,57 @@ export default {
             if (store.genresList.length !== 0 && store.activeItem.length !== 0) {
                 let genlist = [];
                 for (let i = 0; i < store.genresList.length; i++) {
-                    console.log(store.genresList[i].name)
                     if (array.includes(store.genresList[i].id)) {
                         genlist.push(store.genresList[i].name)
-                    }
+                    };
                 }
                 return genlist
             }
+        },
+        pushCast(res) {
+            for (let i = 0; i < 5; i++) {
+                if (res.data.cast[i]) {
+                    this.cast.push({
+                        name: res.data.cast[i].name,
+                        img: res.data.cast[i].name
+                    })
+                }
+            }
+            console.log(this.cast)
         }
+
     },
     computed: {
         nameTitle() {
-            if (store.activeItem.title) {
-                return store.activeItem.title;
-            }
-            else {
-                return store.activeItem.name;
+            if (store.activeItem.length !== 0) {
+                //movies
+                if (store.activeItem.title) {
+                    console.log('film')
+                    axios.get(store.apiUrl + store.endPoint.movieCast.folder + store.activeItem.id + store.endPoint.movieCast.endPoint, { params: { api_key: store.params.apiKey } }).then((res) => {
+                        if (this.cast.length === 0) {
+                            this.pushCast(res)
+                        }
+                        else {
+                            this.cast = []
+                            this.pushCast(res)
+                        }
+                    })
+                    return store.activeItem.title;
+                }
+                //tv
+                else {
+                    console.log('serie')
+                    axios.get(store.apiUrl + store.endPoint.tvCast.folder + store.activeItem.id + store.endPoint.tvCast.endPoint, { params: { api_key: store.params.apiKey } }).then((res) => {
+                        if (this.cast.length === 0) {
+                            this.pushCast(res)
+                        }
+                        else {
+                            this.cast = []
+                            this.pushCast(res)
+                        }
+                    })
+                    return store.activeItem.name;
+                }
             }
 
         },

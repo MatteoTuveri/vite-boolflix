@@ -1,6 +1,6 @@
 <template>
-<!--     <button @click="searchVideo(videoTitle)"></button>
-    <video src=""></video> -->
+     <button @click="searchVideo(videoTitle)"></button>
+    <video src=""></video> 
 </template>
 
 <script>
@@ -13,7 +13,7 @@ export default {
             store,
             params:{
                 part: 'snippet',
-                key: 'AIzaSyD9VZWO3Gurn_I60o5Cbf0n5bcCRxnejRs', 
+                key: 'AIzaSyDK0Hx6SrgNgVhKEzkCYY1tihjgegUQaT0', 
                 type: 'video', 
                 q: '' 
             },
