@@ -14,7 +14,7 @@
                         {{ store.activeItem.overview }}
                     </p>
                 </div>
-                <div class="d-flex">
+                <!--                 <div class="d-flex">
                     <div>
                         Genre:
                     </div>
@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                </div>
+                </div> -->
                 <div class=" my-3 d-flex align-items-center">
                     <div>Language :</div>
                     <Lang :language="store.activeItem.original_language" />
@@ -55,6 +55,10 @@
                             </div>
                         </div>
                     </div>
+                    </div>
+                    <div v-for="(item, index) in this.cast">
+                        {{ item.name }}
+                    </div>
 
                 </div>
             </div>
@@ -78,8 +82,12 @@ export default {
         return {
             store,
             cardTitle: '',
+<<<<<<< HEAD
             cast: [],
             n: 1
+=======
+            cast:[]
+>>>>>>> 27f65d387b060b5fd6a190e3c182eafe3762584d
         };
     },
     props: {
@@ -89,6 +97,7 @@ export default {
         closeInfo() {
             this.$emit("closeInfo");
         },
+<<<<<<< HEAD
         getGenre(array) {
             if (store.genresList.length !== 0 && store.activeItem.length !== 0) {
                 let genlist = [];
@@ -111,10 +120,24 @@ export default {
                 }
             }
         }
+=======
+        /*         getGenre(array) {
+                    if (store.genresList.length !== 0 && store.activeItem.length !== 0) {
+                        let genlist = [];
+                        for (let i = 0; i < store.genresList.length; i++) {
+                            if (array.includes(store.genresList[i].id)){
+                                genlist.push(store.genresList[i].name)
+                            };
+                        }
+                        return genlist
+                    }
+                }, */
+>>>>>>> 27f65d387b060b5fd6a190e3c182eafe3762584d
 
     },
     computed: {
         nameTitle() {
+<<<<<<< HEAD
             if (store.activeItem.length !== 0) {
                 //movies
                 if (store.activeItem.title) {
@@ -145,6 +168,23 @@ export default {
                     })
                     return store.activeItem.name;
                 }
+=======
+            //movies
+            if (store.activeItem.title) {
+                console.log('film')
+                axios.get(store.apiUrl + store.endPoint.movieCast.folder + store.activeItem.id + store.endPoint.movieCast.endPoint, { params: { api_key: store.params.apiKey }}).then((res)=>{
+                    this.cast = res.data.cast
+                })
+                return store.activeItem.title;
+            }
+            //tv
+            else {
+                console.log('serie')
+                axios.get(store.apiUrl + store.endPoint.tvCast.folder + store.activeItem.id + store.endPoint.tvCast.endPoint, { params: { api_key: store.params.apiKey }}).then((res)=>{
+                    this.cast = res.data.cast
+                })
+                return store.activeItem.name;
+>>>>>>> 27f65d387b060b5fd6a190e3c182eafe3762584d
             }
 
         },
