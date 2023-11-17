@@ -43,9 +43,19 @@
                     <div>
                         Cast:
                     </div>
-                    <div v-for="(item, index) in this.cast">
-                        {{ item.name }}
+                    <div class="d-flex">
+                        <div class="p-4" v-for="(item, index) in this.cast">
+                            <div  class="card" style="width: 10rem;">
+                                <img :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${item.img}`"
+                                    class="card-img-top" :alt="item.name">
+                                <div class="card-body">
+                                    <h5>{{ item.name }}</h5>
+                                    <p class="card-text">{{ item.character }}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div class="close-button position-absolute d-flex justify-content-center align-items-center" @click="closeInfo">
@@ -78,7 +88,6 @@ export default {
     methods: {
         closeInfo() {
             this.$emit("closeInfo");
-            console.log(store.activeItem)
         },
         getGenre(array) {
             if (store.genresList.length !== 0 && store.activeItem.length !== 0) {
@@ -96,11 +105,11 @@ export default {
                 if (res.data.cast[i]) {
                     this.cast.push({
                         name: res.data.cast[i].name,
-                        img: res.data.cast[i].name
+                        img: res.data.cast[i].profile_path,
+                        character:res.data.cast[i].character
                     })
                 }
             }
-            console.log(this.cast)
         }
 
     },
@@ -111,6 +120,7 @@ export default {
                 if (store.activeItem.title) {
                     console.log('film')
                     axios.get(store.apiUrl + store.endPoint.movieCast.folder + store.activeItem.id + store.endPoint.movieCast.endPoint, { params: { api_key: store.params.apiKey } }).then((res) => {
+                        console.log(res)
                         if (this.cast.length === 0) {
                             this.pushCast(res)
                         }
@@ -189,7 +199,7 @@ export default {
     height: 100%;
     width: 100%;
     background: rgb(0, 212, 255);
-    background: linear-gradient(180deg, rgba(0, 212, 255, 0) 40%, rgba(2, 0, 36, 0.7) 70%);
+    background: linear-gradient(180deg, rgba(0, 212, 255, 0) 25%, rgba(2, 0, 36, 0.7) 40%);
 }
 
 .close {
