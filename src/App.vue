@@ -1,6 +1,6 @@
 <template>
   <div class="app d-flex flex-column position-relative">
-    <header class="bg-black w-100 d-flex flex-column">
+    <header class="bg-black w-100 d-flex flex-column pb-4">
       <div class=" nav d-flex align-items-center py-3">
         <div class="col-2 d-flex justify-content-center">
           <h1 class="text-uppercase">
@@ -40,7 +40,7 @@
     </header>
     <main class="flex-grow-1 overflow-auto p-4">
       <div v-if="this.store.movieList.length === 0">
-        <h2 class="text-uppercase display-4 fw-bold text-white text-center mb-3">
+        <h2 v-if="store.moviesFiltered.length !==0" class="text-uppercase display-4 fw-bold text-white text-center mb-3">
           {{ store.activeGenre.name + ' ' }}Movies</h2>
         <div class="row">
           <div v-for="(item, index) in store.moviesFiltered"
@@ -50,7 +50,7 @@
               @info-card="openInfoCard(item)" />
           </div>
         </div>
-        <h2 class="text-uppercase display-4 fw-bold text-white text-center mb-3">
+        <h2 v-if="store.seriesFiltered.length !==0" class="text-uppercase display-4 fw-bold text-white text-center mb-3">
           {{ store.activeGenre.name + ' ' }}Series</h2>
         <div class="row">
           <div v-for="(item, index) in store.seriesFiltered" class="col-12 col-md-6 col-lg-4 col-xxl-2 px-4 d-flex justify-content-center">
@@ -61,7 +61,7 @@
         </div>
       </div>
       <div v-if="this.store.movieList.length !== 0">
-        <h2 class="text-uppercase display-4 fw-bold text-white text-center mb-3">
+        <h2 v-if="store.movieList !==0" class="text-uppercase display-4 fw-bold text-white text-center mb-3">
           Movies</h2>
         <div class="row">
           <div v-for="(item, index) in store.movieList"
@@ -71,7 +71,7 @@
               @info-card="openInfoCard(item)" />
           </div>
         </div>
-        <h2 class="text-uppercase display-4 fw-bold text-white text-center mb-3">
+        <h2 v-if="store.seriesList !==0" class="text-uppercase display-4 fw-bold text-white text-center mb-3">
           Series</h2>
         <div class="row">
           <div v-for="(item, index) in store.seriesList"
@@ -111,11 +111,11 @@ export default {
       else {
         //movies
         function movies() {
-          return axios.get(store.apiUrl + store.endPoint.filterGenre.folder + store.endPoint.filterGenre.moviesEndPoint, { params: { api_key: store.params.apiKey, with_genres: item.id } })
+          return axios.get(store.apiUrl + store.endPoint.filterGenre.folder + store.endPoint.filterGenre.moviesEndPoint, { params: { api_key: store.params.apiKey, with_genres: item.id, sort_by:'popularity.desc' } })
         }
         //series
         function series() {
-          return axios.get(store.apiUrl + store.endPoint.filterGenre.folder + store.endPoint.filterGenre.moviesEndPoint, { params: { api_key: store.params.apiKey, with_genres: item.id } })
+          return axios.get(store.apiUrl + store.endPoint.filterGenre.folder + store.endPoint.filterGenre.seriesEndPoint, { params: { api_key: store.params.apiKey, with_genres: item.id, sort_by:'popularity.desc' } })
         }
         Promise.all([movies(), series()]).then((results) => {
           const movies = results[0].data.results;
