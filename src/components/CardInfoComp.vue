@@ -43,7 +43,7 @@
                     <div>
                         Cast:
                     </div>
-                    <div class="d-flex">
+                    <div class="d-flex overflow-auto">
                         <div class="p-4" v-for="(item, index) in this.cast">
                             <div class="card" style="width: 10rem;">
                                 <img :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${item.img}`"
