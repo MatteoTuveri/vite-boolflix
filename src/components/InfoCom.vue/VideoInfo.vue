@@ -32,11 +32,8 @@ export default {
     },
     methods: {
         searchVideo(title) {
-            console.log(title)
             this.params.q = title + ` Official Trailer`;
-            console.log(this.params.q)
             axios.get('https://www.googleapis.com/youtube/v3/search', { params: this.params }).then((resp) => {
-                console.log(resp)
                 this.videoId = resp.data.items[0].id.videoId
                 this.videoUrl = `https://www.youtube.com/embed/${this.videoId}?&controls=0&rel=0&showinfo=0`
             });

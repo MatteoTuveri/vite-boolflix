@@ -126,9 +126,7 @@ export default {
             if (store.activeItem.length !== 0) {
                 //movies
                 if (store.activeItem.title) {
-                    console.log('film')
                     axios.get(store.apiUrl + store.endPoint.movieCast.folder + store.activeItem.id + store.endPoint.movieCast.endPoint, { params: { api_key: store.params.apiKey } }).then((res) => {
-                        console.log(res)
                         if (this.cast.length === 0) {
                             this.pushCast(res)
                         }
@@ -141,7 +139,6 @@ export default {
                 }
                 //tv
                 else {
-                    console.log('serie')
                     axios.get(store.apiUrl + store.endPoint.tvCast.folder + store.activeItem.id + store.endPoint.tvCast.endPoint, { params: { api_key: store.params.apiKey } }).then((res) => {
                         if (this.cast.length === 0) {
                             this.pushCast(res)
