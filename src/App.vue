@@ -32,7 +32,8 @@
       </div>
       <div v-if="this.store.movieList.length === 0"
         class="px-5 w-75 m-auto d-flex flex-wrap justify-content-center text-white text-uppercase fw-bold">
-        <div v-for="(item, index) in store.genresList" class="py-4 px-3" @click="setGenreFilt(item)">
+        <div v-for="(item, index) in store.genresList" class="py-4 px-3 genres d-flex flex-column align-items-center position-relative"
+          @click="setGenreFilt(item)">
           {{ item.name }}
         </div>
       </div>
@@ -52,8 +53,7 @@
         <h2 class="text-uppercase display-4 fw-bold text-white text-center mb-3">
           {{ store.activeGenre.name + ' ' }}Series</h2>
         <div class="row">
-          <div v-for="(item, index) in store.seriesFiltered"
-            class="col-12 col-md-6 col-lg-4 col-xxl-2 px-4 d-flex justify-content-center">
+          <div v-for="(item, index) in store.seriesFiltered" class="col-12 col-md-6 col-lg-4 col-xxl-2 px-4 d-flex justify-content-center">
             <CardComp :title="item.name" :original-title="item.original_name"
               :img="this.store.imagesUrl + item.poster_path" :language="item.original_language" :grade="item.vote_average"
               @info-card="openInfoCard(item)" />
@@ -118,11 +118,11 @@ export default {
           return axios.get(store.apiUrl + store.endPoint.filterGenre.folder + store.endPoint.filterGenre.moviesEndPoint, { params: { api_key: store.params.apiKey, with_genres: item.id } })
         }
         Promise.all([movies(), series()]).then((results) => {
-        const movies = results[0].data.results;
-        store.moviesFiltered = movies
-        const series = results[1].data.results;
-        store.seriesFiltered = series
-      });
+          const movies = results[0].data.results;
+          store.moviesFiltered = movies
+          const series = results[1].data.results;
+          store.seriesFiltered = series
+        });
       }
     },
     getGenres() {
@@ -211,6 +211,26 @@ export default {
 main {
   background: rgb(75, 75, 75);
   background: linear-gradient(0deg, rgba(75, 75, 75, 1) 0%, rgba(2, 0, 36, 1) 78%);
+}
+
+.genres {
+  cursor: pointer;
+}
+
+.genres::after {
+  content: '';
+  width: 100%;
+  height: 5px;
+  background-color: #e6111b;
+  position: absolute;
+  bottom: 0;
+  transform: scaleX(0);
+  transition: 0.5s;
+}
+
+.genres:hover::after {
+  transform: scaleX(1);
+  transition: 0.5s;
 }
 
 .bg-search:hover {

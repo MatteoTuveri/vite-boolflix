@@ -1,14 +1,14 @@
 <template>
-    <div class="w-100 card position-relative mb-4 overflow-hidden" style="width: 18rem;">
-        <img :src="img" class="card-img-top" :alt="originalTitle">
-        <div class="card-body position-absolute description d-flex flex-column justify-content-end w-100 h-100"
-            @click="infoCard()">
-            <h5 class="card-title">{{ title }}</h5>
-            <span class="text-sub">{{ originalTitle }}</span>
-            <Lang class="mb-2" :language="language"/>
-            <Rating :rate="gradeC" />
+        <div class="w-100 card position-relative mb-4 overflow-hidden" style="width: 18rem;">
+            <img :src="image" class="card-img-top" :alt="originalTitle">
+            <div class="card-body position-absolute description d-flex flex-column justify-content-end w-100 h-100"
+                @click="infoCard()">
+                <h5 class="card-title">{{ title }}</h5>
+                <span class="text-sub">{{ originalTitle }}</span>
+                <Lang class="mb-2" :language="language" />
+                <Rating :rate="gradeC" />
+            </div>
         </div>
-    </div>
 </template>
 
 <script>
@@ -42,6 +42,15 @@ export default {
             }
             else {
                 return 0;
+            }
+        },
+        image(){
+            if(this.img.split('/')[this.img.split('/').length-1] === 'null'){
+                console.log(this.img.split('/')[this.img.split('/').length-1]=== 'null')
+                return 'https://ih1.redbubble.net/image.4905811447.8675/flat,750x,075,f-pad,750x1000,f8f8f8.webp'
+            }
+            else{
+                return this.img
             }
         }
     },
