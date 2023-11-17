@@ -1,8 +1,7 @@
 <template>
-    <div class="w-100 h-100 d-flex justify-content-center align-items-center"
-        :class="(openClose === 'open') ? 'info-bg-on' : 'info-bg-off'">
-        <div class="info-card overflow-hidden position-relative" :style="img" :class="openClose">
-            <div class=" info-section d-flex flex-column justify-content-end p-5 text-white ">
+    <div class="w-100 h-100 d-flex justify-content-center align-items-center" :class="(openClose === 'open') ? 'info-bg-on' : 'info-bg-off'">
+        <div class="info-card overflow-hidden position-relative d-flex flex-column" :style="img" :class="[openClose,(video)?'info-video':'info-card']">
+            <div v-if="!video" class=" info-section d-flex flex-column justify-content-end p-5 text-white ">
                 <h2 class="display-1 fw-bold mb-4">
                     {{ nameTitle }}
                 </h2>
@@ -43,7 +42,7 @@
                     <div>
                         Cast:
                     </div>
-                    <div class="d-flex overflow-auto">
+                    <div class="d-flex">
                         <div class="p-4" v-for="(item, index) in this.cast">
                             <div class="card" style="width: 10rem;">
                                 <img :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${item.img}`"
@@ -56,13 +55,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="align-self-center">
+                    <div class="btn btn-pers" @click="video = !video">
+                        Watch the trailer<i class="fa-solid fa-play mx-2"></i>
+                    </div>
+                </div>
+            </div>
+            <div v-if="video" class="bg-black">
+                <VideoInfo :video-title="nameTitle" @stop-video="video = !video" />
             </div>
             <div class="close-button position-absolute d-flex justify-content-center align-items-center" @click="closeInfo">
                 <i class="fa-solid fa-xmark fa-2xl"></i>
             </div>
         </div>
     </div>
-    <!--     <VideoInfo :video-title="nameTitle" /> -->
 </template>
 
 <script>
@@ -79,7 +85,8 @@ export default {
             cardTitle: '',
             cast: [],
             n: 1,
-            cast: []
+            cast: [],
+            video: false
         };
     },
     props: {
@@ -87,6 +94,7 @@ export default {
     },
     methods: {
         closeInfo() {
+            this.video= false
             this.$emit("closeInfo");
         },
         getGenre(array) {
@@ -185,6 +193,7 @@ export default {
     border: 2px solid grey;
     color: gray;
     transition: 0.5s;
+    z-index: 100000000;
 }
 
 .close-button:hover {
@@ -216,6 +225,21 @@ export default {
     height: 90vh;
     background-color: white;
     border-radius: 25px;
-    z-index: 10001;
+    transition: 1s;
+}
+
+.info-video{
+    width:1920px;
+    height:1080px;
+    transition: 1s;
+}
+
+.btn-pers{
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}
+.btn-pers:hover{
+    color: black;
+    background-color: white;
 }
 </style>
