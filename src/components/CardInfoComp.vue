@@ -14,7 +14,7 @@
                         {{ store.activeItem.overview }}
                     </p>
                 </div>
-                <!--                 <div class="d-flex">
+                <div class="d-flex">
                     <div>
                         Genre:
                     </div>
@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                </div> -->
+                </div>
                 <div class=" my-3 d-flex align-items-center">
                     <div>Language :</div>
                     <Lang :language="store.activeItem.original_language" />
@@ -45,7 +45,7 @@
                     </div>
                     <div class="d-flex">
                         <div class="p-4" v-for="(item, index) in this.cast">
-                            <div  class="card" style="width: 10rem;">
+                            <div class="card" style="width: 10rem;">
                                 <img :src="`https://www.themoviedb.org/t/p/w300_and_h450_bestv2${item.img}`"
                                     class="card-img-top" :alt="item.name">
                                 <div class="card-body">
@@ -55,19 +55,14 @@
                             </div>
                         </div>
                     </div>
-                    </div>
-                    <div v-for="(item, index) in this.cast">
-                        {{ item.name }}
-                    </div>
-
                 </div>
             </div>
             <div class="close-button position-absolute d-flex justify-content-center align-items-center" @click="closeInfo">
                 <i class="fa-solid fa-xmark fa-2xl"></i>
             </div>
         </div>
-        <VideoInfo :video-title="nameTitle" />
     </div>
+    <!--     <VideoInfo :video-title="nameTitle" /> -->
 </template>
 
 <script>
@@ -82,12 +77,9 @@ export default {
         return {
             store,
             cardTitle: '',
-<<<<<<< HEAD
             cast: [],
-            n: 1
-=======
-            cast:[]
->>>>>>> 27f65d387b060b5fd6a190e3c182eafe3762584d
+            n: 1,
+            cast: []
         };
     },
     props: {
@@ -97,7 +89,6 @@ export default {
         closeInfo() {
             this.$emit("closeInfo");
         },
-<<<<<<< HEAD
         getGenre(array) {
             if (store.genresList.length !== 0 && store.activeItem.length !== 0) {
                 let genlist = [];
@@ -115,29 +106,15 @@ export default {
                     this.cast.push({
                         name: res.data.cast[i].name,
                         img: res.data.cast[i].profile_path,
-                        character:res.data.cast[i].character
+                        character: res.data.cast[i].character
                     })
                 }
             }
         }
-=======
-        /*         getGenre(array) {
-                    if (store.genresList.length !== 0 && store.activeItem.length !== 0) {
-                        let genlist = [];
-                        for (let i = 0; i < store.genresList.length; i++) {
-                            if (array.includes(store.genresList[i].id)){
-                                genlist.push(store.genresList[i].name)
-                            };
-                        }
-                        return genlist
-                    }
-                }, */
->>>>>>> 27f65d387b060b5fd6a190e3c182eafe3762584d
 
     },
     computed: {
         nameTitle() {
-<<<<<<< HEAD
             if (store.activeItem.length !== 0) {
                 //movies
                 if (store.activeItem.title) {
@@ -168,25 +145,7 @@ export default {
                     })
                     return store.activeItem.name;
                 }
-=======
-            //movies
-            if (store.activeItem.title) {
-                console.log('film')
-                axios.get(store.apiUrl + store.endPoint.movieCast.folder + store.activeItem.id + store.endPoint.movieCast.endPoint, { params: { api_key: store.params.apiKey }}).then((res)=>{
-                    this.cast = res.data.cast
-                })
-                return store.activeItem.title;
             }
-            //tv
-            else {
-                console.log('serie')
-                axios.get(store.apiUrl + store.endPoint.tvCast.folder + store.activeItem.id + store.endPoint.tvCast.endPoint, { params: { api_key: store.params.apiKey }}).then((res)=>{
-                    this.cast = res.data.cast
-                })
-                return store.activeItem.name;
->>>>>>> 27f65d387b060b5fd6a190e3c182eafe3762584d
-            }
-
         },
         img() {
             return `background-image :url(${this.store.imagesUrlXl + store.activeItem.poster_path});background-size:cover;background-position: center;`;
